@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+const posts = await getCollection('failures');
+---
+<h1>経営失敗談</h1>
+<ul>
+  {posts.map((p) => (
+    <li><a href="/failures/{p.slug}/">{p.data.title}</a></li>
+  ))}
+</ul>
