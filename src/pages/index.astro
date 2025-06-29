@@ -1,11 +1,66 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+// index.astro
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";     
+import CategoryLink from  "../components/CategoryLink.astro";  
+import NewsTicker from  "../components/NewsTicker.astro";  
+import { getCollection } from "astro:content";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// 各カテゴリ最新 1 件ずつ
+const interviews = (await getCollection('interviews')).slice(0,1);
+const founders   = (await getCollection('founders-insight')).slice(0,1);
+const trends     = (await getCollection('trends')).slice(0,1);
+const failures   = (await getCollection('failures')).slice(0,1);
+const vcs        = (await getCollection('vc-interviews')).slice(0,1);
 ---
+<Layout title="スタートアップ白書 - 日本発スタートアップの今を読む">
+  <!-- Hero -->
+  <section class="text-center py-20 bg-gradient-to-b from-indigo-50 to-white">
+    <h1 class="text-4xl font-bold mb-4">スタートアップ白書</h1>
+    <p class="mb-6">起業家・投資家必携の一次情報ポータル</p>
+    <a href="/interviews/" class="px-6 py-3 bg-indigo-600 text-white rounded shadow">最新インタビューを読む</a>
+  </section>
 
-<Layout>
-	<Welcome />
+  <!-- 最新記事カード -->
+  <section class="max-w-4xl mx-auto my-16 grid gap-6 md:grid-cols-2">
+    {interviews.map(p => (
+      <Card title={p.data.title} href={`/interviews/${p.slug}/`} tag="Interview" />
+    ))}
+    {founders.map(p => (
+      <Card title={p.data.title} href={`/founders-insight/${p.slug}/`} tag="Analysis" />
+    ))}
+    {trends.map(p => (
+      <Card title={p.data.title} href={`/trends/${p.slug}/`} tag="Trend" />
+    ))}
+    {failures.map(p => (
+      <Card title={p.data.title} href={`/failures/${p.slug}/`} tag="Failure" />
+    ))}
+    {vcs.map(p => (
+      <Card title={p.data.title} href={`/vc-interviews/${p.slug}/`} tag="VC" />
+    ))}
+  </section>
+
+  <!-- カテゴリグリッド -->
+  <section class="bg-gray-50 py-12">
+    <div class="max-w-5xl mx-auto grid gap-6 md:grid-cols-3">
+      <CategoryLink href="/interviews/" label="インタビュー" icon="👤" />
+      <CategoryLink href="/founders-insight/" label="起業家分析" icon="📊" />
+      <CategoryLink href="/trends/" label="トレンド" icon="🌐" />
+      <CategoryLink href="/failures/" label="失敗談" icon="⚠️" />
+      <CategoryLink href="/vc-interviews/" label="VC インタビュー" icon="💰" />
+      <CategoryLink href="/glossary/" label="用語集" icon="📚" />
+    </div>
+  </section>
+
+  <!-- ニュースティッカー -->
+  <NewsTicker />
+
+  <!-- CTA -->
+  <section class="text-center py-16">
+    <h2 class="text-2xl font-semibold mb-4">最新記事をメールで受け取る</h2>
+    <form action="https://formspree.io/f/xxxxxxx" method="POST" class="flex justify-center gap-3">
+      <input type="email" name="email" required placeholder="your@email.com" class="px-4 py-2 border rounded w-64"/>
+      <button class="px-6 py-2 bg-indigo-600 text-white rounded">登録</button>
+    </form>
+  </section>
 </Layout>
