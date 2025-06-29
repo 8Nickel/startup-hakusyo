@@ -1,0 +1,20 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getEntryBySlug } from "astro:content";
+import { Markdown } from "astro/components";  /* 追加 */
+
+const { slug } = Astro.params;
+const post = await getEntryBySlug("interviews", slug);
+
+if (!post) throw new Error(`Interview not found: ${slug}`);
+
+const { title, date } = post.data;
+---
+
+<Layout title={`${title} | スタートアップ白書`}>
+  <article class="max-w-3xl mx-auto prose lg:prose-xl">
+    <h1>{title}</h1>
+    <p class="text-sm text-gray-500">{date}</p>
+    <Markdown content={post.body} />      <!--✨ 正しくレンダリング -->
+  </article>
+</Layout>
