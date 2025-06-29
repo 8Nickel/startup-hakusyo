@@ -1,0 +1,28 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, getEntryBySlug } from "astro:content";
+
+// ▼ ① ここを変更
+const COLLECTION = "failure";   // 例: "trends"
+
+const { slug } = Astro.params;
+const post = await getEntryBySlug(COLLECTION, slug);
+if (!post) throw new Error(`Not found: ${slug}`);
+
+const { Content } = await post.render();
+const { title, date } = post.data;
+
+export async function getStaticPaths() {
+  const posts = await getCollection(COLLECTION);     // ▼ ②
+  return posts.map((p) => ({ params: { slug: p.slug } }));
+}
+---
+
+<Layout title={`${title} | スタートアップ白書`}>
+  <article class="prose lg:prose-xl max-w-3xl mx-auto">
+    <h1>{title}</h1>
+    <p class="text-sm text-gray-500">{date}</p>
+
+    <Content />
+  </article>
+</Layout>
