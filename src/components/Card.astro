@@ -1,0 +1,8 @@
+---
+export interface Props { title:string; href:string; tag:string }
+const { title, href, tag } = Astro.props;
+---
+<a href={href} class="block p-5 border rounded hover:shadow">
+  <span class="text-xs text-indigo-600">{tag}</span>
+  <h3 class="text-lg font-semibold mt-2">{title}</h3>
+</a>

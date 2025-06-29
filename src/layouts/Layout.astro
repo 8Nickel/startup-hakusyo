@@ -1,22 +1,36 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+---
+/* フロントマター: ここにスクリプトや import を書く */
+import "../styles/global.css";     // Tailwind のグローバル CSS
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- ページごとに title / meta を差し込みたい場合 -->
+    <slot name="head" />
+
+    <title>スタートアップ白書</title>
+  </head>
+
+  <body class="bg-gray-50 text-gray-800">
+    <!-- ここにページ固有のコンテンツが入る -->
+    <slot />
+
+    <!-- フッターや共通スクリプトを入れたければここ -->
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  /* 追加のグローバル CSS (任意) */
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
 </style>
