@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import { getCollection, getEntryBySlug } from "astro:content";
 
 // ▼ ① ここを変更
-const COLLECTION = "failure";   // 例: "trends"
+const COLLECTION = "failures";   // 例: "trends"
 
 const { slug } = Astro.params;
 const post = await getEntryBySlug(COLLECTION, slug);
