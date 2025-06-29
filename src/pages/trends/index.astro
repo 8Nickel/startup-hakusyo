@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+const posts = await getCollection('trends');
+---
+<h1>最新トレンド・マーケットデータ</h1>
+<ul>
+  {posts.map((p) => (
+    <li><a href="/trends/{p.slug}/">{p.data.title}</a></li>
+  ))}
+</ul>

@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+const posts = await getCollection('founders-insight');
+---
+<h1>起業家分析</h1>
+<ul>
+  {posts.map((p) => (
+    <li><a href="/founders-insight/{p.slug}/">{p.data.title}</a></li>
+  ))}
+</ul>

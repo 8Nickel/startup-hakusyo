@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+const posts = await getCollection('glossary');
+---
+<h1>用語集</h1>
+<ul>
+  {posts.map((p) => (
+    <li><a href="/glossary/{p.slug}/">{p.data.title}</a></li>
+  ))}
+</ul>
