@@ -2,27 +2,23 @@
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, getEntryBySlug } from "astro:content";
 
-// ▼ ① ここを変更
-const COLLECTION = "glossary";   // 例: "trends"
-
 const { slug } = Astro.params;
-const post = await getEntryBySlug(COLLECTION, slug);
-if (!post) throw new Error(`Not found: ${slug}`);
+const term = await getEntryBySlug("glossary", slug);
+if (!term) throw new Error(`Glossary entry not found: ${slug}`);
 
-const { Content } = await post.render();
-const { title, date } = post.data;
+const { Content } = await term.render();
+const { term: title, definition } = term.data;
 
 export async function getStaticPaths() {
-  const posts = await getCollection(COLLECTION);     // ▼ ②
-  return posts.map((p) => ({ params: { slug: p.slug } }));
+  const terms = await getCollection("glossary");
+  return terms.map((t) => ({ params: { slug: t.slug } }));
 }
 ---
 
-<Layout title={`${title} | スタートアップ白書`}>
+<Layout title={`${title} | 用語集 | スタートアップ白書`}>
   <article class="prose lg:prose-xl max-w-3xl mx-auto">
     <h1>{title}</h1>
-    <p class="text-sm text-gray-500">{date}</p>
-
+    <p class="text-gray-700">{definition}</p>
     <Content />
   </article>
 </Layout>

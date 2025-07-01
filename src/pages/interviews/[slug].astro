@@ -2,29 +2,23 @@
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, getEntryBySlug } from "astro:content";
 
-// ① slug 取得
 const { slug } = Astro.params;
 const post = await getEntryBySlug("interviews", slug);
 if (!post) throw new Error(`Interview not found: ${slug}`);
 
-// ② Markdown → HTML コンポーネント
 const { Content } = await post.render();
 const { title, date } = post.data;
 
-// ③ 各 slug をビルド時に列挙
 export async function getStaticPaths() {
   const posts = await getCollection("interviews");
-  return posts.map((p) => ({
-    params: { slug: p.slug },
-  }));
+  return posts.map((p) => ({ params: { slug: p.slug } }));
 }
 ---
 
 <Layout title={`${title} | スタートアップ白書`}>
-  <article class="max-w-3xl mx-auto prose lg:prose-xl">
+  <article class="prose lg:prose-xl max-w-3xl mx-auto">
     <h1>{title}</h1>
     <p class="text-sm text-gray-500">{date}</p>
-
     <Content />
   </article>
 </Layout>
