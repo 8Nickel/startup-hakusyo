@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
-const news = await getCollection("news");
+const posts = await getCollection("news");
 ---
 
 <Layout title="ニュース | スタートアップ白書">
@@ -10,13 +10,13 @@ const news = await getCollection("news");
     <h1 class="text-3xl font-bold mb-8">自動取得ニュース</h1>
 
     <ul class="space-y-4">
-      {news.map((n) => (
+      {posts.map((p) => (
         <li class="p-4 bg-white shadow rounded hover:bg-indigo-50">
-          <a href={`/news/${n.slug}/`} class="text-xl font-semibold text-indigo-700">
-            {n.data.title}
+          <a href={`/news/${p.slug}/`} class="text-xl font-semibold text-indigo-700">
+            {p.data.title}
           </a>
-          <p class="text-sm text-gray-500 mt-1">{n.data.date}</p>
-          {n.data.excerpt && <p class="mt-2 text-gray-600">{n.data.excerpt}</p>}
+          <p class="text-sm text-gray-500 mt-1">{p.data.date}</p>
+          {p.data.excerpt && <p class="mt-2 text-gray-600">{p.data.excerpt}</p>}
         </li>
       ))}
     </ul>
